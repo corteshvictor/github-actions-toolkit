@@ -1,10 +1,14 @@
 name: continuous-deployment
-on: [push]
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'
+
 jobs:
-  delete-access-restrictions:
+  continuous-deployment:
+    name: Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -12,11 +16,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: "Install pnpm"
-        run: "npm install -g pnpm"
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
       - name: Install dependencies
         run: pnpm install
-      - name: Run script
-        run: node src/index.js
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
