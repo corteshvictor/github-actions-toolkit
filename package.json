@@ -1,15 +1,19 @@
 {
   "name": "github-actions-toolkit",
   "version": "1.0.0",
-  "description": "",
+  "description": "delete, get and update branch protection rules",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node src/index"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@actions/github": "6.0.0"
+  },
+  "engines": {
+    "node": "18"
   }
 }
