@@ -1,6 +1,6 @@
 import { context } from '@actions/github';
 
-import { updateBranchProtection } from './actions-toolkit.js';
+import { updateBranchProtection } from './utils/actions-toolkit.js';
 
 async function run() {
   const { owner, repo } = context.repo;
@@ -22,12 +22,11 @@ async function run() {
         required_approving_review_count: 1,
       },
       restrictions: null,
-      allow_force_pushes: true,
     });
 
-    console.log('Branch protection has been updated.');
+    console.log('Protected branch security is enabled.');
   } catch (error) {
-    console.error('Error updating branch protection:', error);
+    console.error('Error when enabling protected branch security:', error);
   }
 }
 
