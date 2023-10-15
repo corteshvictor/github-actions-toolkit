@@ -1,5 +1,6 @@
 import { context } from '@actions/github';
-import { updateBranchProtection } from './actions-toolkit';
+
+import { updateBranchProtection } from './actions-toolkit.js';
 
 async function run() {
   const { owner, repo } = context.repo;
