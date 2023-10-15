@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "delete, get and update branch protection rules",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "node src/index"
   },
