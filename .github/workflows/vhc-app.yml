@@ -26,6 +26,6 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Run script
-        run: node src/index.js
+        run: node src/update-branch-protection.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}

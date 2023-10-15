@@ -1,4 +1,5 @@
 import { getOctokit } from '@actions/github';
+import { exec } from '@actions/exec';
 
 const octokit = getOctokit(process.env.GITHUB_TOKEN);
 
@@ -132,4 +133,148 @@ async function updateBranchProtection(params) {
   return octokit.rest.repos.updateBranchProtection(params);
 }
 
-export { getBranchProtection, deleteBranchProtection, updateBranchProtection };
+/**
+ * Creates a release for a repository on GitHub.
+ * Users with push access to the repository can create a release. This endpoint triggers notifications. Creating content too quickly using this endpoint may result in secondary rate limiting.
+ *
+ * https://octokit.github.io/rest.js/v20#repos-create-release
+ *
+ * https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
+ *
+ * @async
+ * @function createRelease
+ * @param {Object} params - Function parameters.
+ * @param {string} params.owner - The account owner of the repository. The name is not case sensitive. This parameter is required.
+ * @param {string} params.repo - The name of the repository without the .git extension. The name is not case sensitive. This parameter is required.
+ * @param {string} params.tag_name - The name of the tag. This parameter is required.
+ * @param {string} [params.target_commitish] Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch.
+ * @param {string} [params.name] - The name of the release.
+ * @param {string} [params.body] - Text describing the contents of the tag.
+ * @param {boolean} [params.draft] - true to create a draft (unpublished) release, false to create a published one default false.
+ * @param {boolean} [params.prerelease] - true to identify the release as a prerelease, false to identify the release as a full release. default false.
+ * @returns {Promise<Object>} Promise resolving with the created release data.
+ * @throws {Error} Throws an error if the GitHub API request fails or if any of the parameters are not provided.
+ *
+ * @example
+ * await createRelease({
+ *   owner: 'octocat',
+ *   repo: 'Hello-World',
+ *   tag_name: 'v1.0.0',
+ *   target_commitish: 'main',
+ *   name: 'Initial release',
+ *   body: 'First version of our project',
+ *   draft: false,
+ *   prerelease: false
+ * });
+ */
+async function createRelease({
+  owner,
+  repo,
+  tag_name,
+  target_commitish,
+  name,
+  body,
+  draft,
+  prerelease,
+}) {
+  return octokit.rest.repos.createRelease({
+    owner,
+    repo,
+    tag_name,
+    target_commitish,
+    name,
+    body,
+    draft,
+    prerelease,
+  });
+}
+
+/**
+ * Sets up the Git user for commits.
+ *
+ * @async
+ * @function setupUser
+ * @throws {Error} Throws an error if the Git commands fail.
+ *
+ * @example
+ * await setupUser();
+ */
+async function setupUser() {
+  await exec('git', ['config', 'user.name', `"github-actions[bot]"`]);
+  await exec('git', [
+    'config',
+    'user.email',
+    `"github-actions[bot]@users.noreply.github.com"`,
+  ]);
+}
+
+/**
+ * Pushes the current HEAD to a branch.
+ *
+ * @async
+ * @function push
+ * @param {string} branch - The branch to push to.
+ * @throws {Error} Throws an error if the Git command fails.
+ *
+ * @example
+ * await push('main');
+ */
+async function pushOrigin(branch) {
+  await exec('git', ['push', 'origin', `HEAD:${branch}`]);
+}
+
+/**
+ * Pushes all tags to the origin remote.
+ *
+ * @async
+ * @function pushTags
+ * @throws {Error} Throws an error if the Git command fails.
+ *
+ * @example
+ * await pushTags();
+ */
+async function pushTags() {
+  await exec('git', ['push', 'origin', '--tags']);
+}
+
+/**
+ * Creates a new Git tag.
+ *
+ * @async
+ * @function createTag
+ * @param {string} tagName - The name of the tag to create.
+ * @throws {Error} Throws an error if the Git command fails.
+ *
+ * @example
+ * await createTag('v1.0.0');
+ */
+async function createTag(tagName) {
+  await exec('git', ['tag', tagName]);
+}
+
+/**
+ * Creates a new Git commit with a message.
+ *
+ * @async
+ * @function commit
+ * @param {string} message - The commit message.
+ * @throws {Error} Throws an error if the Git command fails.
+ *
+ * @example
+ * await commit('Initial commit');
+ */
+async function commitAll(message) {
+  await exec('git', ['commit', '-am', message]);
+}
+
+export {
+  getBranchProtection,
+  deleteBranchProtection,
+  updateBranchProtection,
+  createRelease,
+  setupUser,
+  pushOrigin,
+  pushTags,
+  createTag,
+  commitAll,
+};

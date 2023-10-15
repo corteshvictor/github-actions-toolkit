@@ -1,19 +1,40 @@
 import { context } from '@actions/github';
-import { getBranchProtection } from './actions-toolkit';
+import semver from 'semver';
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+
+import {
+  commitAll,
+  createRelease,
+  createTag,
+  pushOrigin,
+  pushTags,
+} from './actions-toolkit';
 
 async function run() {
   const { owner, repo } = context.repo;
 
   try {
-    const response = await getBranchProtection({
+    const packageJsonPath = path.resolve(process.cwd(), 'package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    const version = semver.inc(packageJson.version, 'patch');
+
+    packageJson.version = version;
+    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+    await commitAll('Version Packages');
+    await createTag(version);
+    await pushTags();
+    await pushOrigin('main');
+    await createRelease({
       owner,
       repo,
-      branch: 'main',
+      tag_name: version,
+      name: version,
+      generate_release_notes: true,
     });
-
-    console.log(JSON.stringify(response, null, 2));
   } catch (error) {
-    console.error('Error when getting branch protection data:', error);
+    console.error('Error updating version and create tag', error);
   }
 }
 
