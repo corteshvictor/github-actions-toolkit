@@ -167,26 +167,8 @@ async function updateBranchProtection(params) {
  *   prerelease: false
  * });
  */
-async function createRelease({
-  owner,
-  repo,
-  tag_name,
-  target_commitish,
-  name,
-  body,
-  draft,
-  prerelease,
-}) {
-  return octokit.rest.repos.createRelease({
-    owner,
-    repo,
-    tag_name,
-    target_commitish,
-    name,
-    body,
-    draft,
-    prerelease,
-  });
+async function createRelease(params) {
+  return octokit.rest.repos.createRelease(params);
 }
 
 /**
