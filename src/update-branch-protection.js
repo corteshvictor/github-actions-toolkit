@@ -21,6 +21,7 @@ async function run() {
         required_approving_review_count: 1,
       },
       restrictions: null,
+      allow_force_pushes: true,
     });
 
     console.log('Branch protection has been updated.');
