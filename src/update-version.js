@@ -9,7 +9,7 @@ import {
   createTag,
   pushOrigin,
   pushTags,
-} from './actions-toolkit';
+} from './actions-toolkit.js';
 
 async function run() {
   const { owner, repo } = context.repo;
