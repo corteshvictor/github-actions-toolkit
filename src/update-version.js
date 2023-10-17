@@ -9,7 +9,7 @@ import {
   createTag,
   pushOrigin,
   pushTags,
-} from './actions-toolkit.js';
+} from './utils/actions-toolkit.js';
 
 async function run() {
   const { owner, repo } = context.repo;
@@ -22,7 +22,7 @@ async function run() {
     packageJson.version = version;
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
-    await commitAll('Version Packages');
+    await commitAll('chore: Version Packages');
     await createTag(version);
     await pushTags();
     await pushOrigin('main');

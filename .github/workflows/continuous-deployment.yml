@@ -37,6 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
       - name: Run script enable security branch
+        if: always()
         run: node src/enable-security-branch.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
