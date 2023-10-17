@@ -25,7 +25,6 @@ const octokit = getOctokit(process.env.GITHUB_TOKEN);
 async function getBranchProtection(params) {
   const { data } = await octokit.rest.repos.getBranchProtection(params);
 
-  // console.log(JSON.stringify(data, null, 2));
   return data;
 }
 
