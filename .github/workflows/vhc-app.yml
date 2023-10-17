@@ -16,7 +16,9 @@ jobs:
         with:
           node-version: 18
       - name: Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
       - name: Install dependencies
         run: pnpm install
       - name: Create Token
@@ -25,7 +27,7 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-      - name: Run script
-        run: node src/update-branch-protection.js
+      - name: Run script disable security branch
+        run: node src/disable-security-branch.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
