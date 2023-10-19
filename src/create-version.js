@@ -21,7 +21,8 @@ async function run() {
     // https://github.com/semantic-release/semantic-release/blob/bdfb5296f20ee92ecbd3915f681b83b925e0b4ee/docs/developer-guide/js-api.md
     const { lastRelease, nextRelease } = await semanticRelease({
       branches: ['main', 'feat/run-locally'],
-      repositoryUrl: 'https://github.com/corteshvictor/github-actions-toolkit',
+      repositoryUrl:
+        'https://github.com/corteshvictor/github-actions-toolkit.git',
     });
     const { version, gitTag, name } = nextRelease;
 
