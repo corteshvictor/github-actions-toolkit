@@ -1,7 +1,7 @@
 name: continuous-deployment
 on:
   push:
-    branches: [main]
+    branches: [main,feat/run-locally]
     paths-ignore:
       - '.github/**'
 
@@ -33,7 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
       - name: Semantic Release
-        uses: codfish/semantic-release-action@v2
+        uses: node src/create-version.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
       - name: Run script enable security branch

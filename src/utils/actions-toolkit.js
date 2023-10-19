@@ -151,6 +151,9 @@ async function updateBranchProtection(params) {
  * @param {string} [params.body] - Text describing the contents of the tag.
  * @param {boolean} [params.draft] - true to create a draft (unpublished) release, false to create a published one default false.
  * @param {boolean} [params.prerelease] - true to identify the release as a prerelease, false to identify the release as a full release. default false.
+ * @param {string} [params.discussion_category_name] - If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see ["Managing categories for discussions in your repository."](https://docs.github.com/en/discussions/managing-discussions-for-your-community/managing-categories-for-discussions).
+ * @param {boolean} [params.generate_release_notes] - Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes. Default: false
+ * @param {string} [params.make_latest] - Specifies whether this release should be set as the latest release for the repository. Drafts and prereleases cannot be set as latest. Defaults to true for newly published releases. legacy specifies that the latest release should be determined based on the release creation date and higher semantic version. Default: true Can be one of: true, false, legacy
  * @returns {Promise<Object>} Promise resolving with the created release data.
  * @throws {Error} Throws an error if the GitHub API request fails or if any of the parameters are not provided.
  *

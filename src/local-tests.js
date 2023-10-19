@@ -2,16 +2,19 @@ import 'dotenv/config';
 
 const { NAME_FUNC } = process.env;
 
+const functionModules = {
+  getBranchProtection: './get-branch-protection.js',
+  enableSecurityBranch: './get-branch-protection.js',
+  disableSecurityBranch: './get-branch-protection.js',
+  createVersion: './create-version.js',
+};
+
 async function run() {
-  if (NAME_FUNC === 'enableSecurityBranch') {
-    return await import('./get-branch-protection.js');
+  try {
+    await import(functionModules[NAME_FUNC]);
+  } catch (error) {
+    console.error('Error searching for the module:', error);
   }
-
-  if (NAME_FUNC === 'disableSecurityBranch') {
-    return await import('./get-branch-protection.js');
-  }
-
-  await import('./get-branch-protection.js');
 }
 
 run();
