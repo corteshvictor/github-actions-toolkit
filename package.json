@@ -1,16 +1,26 @@
 {
   "name": "github-actions-toolkit",
   "version": "0.0.1",
-  "description": "delete, get and update branch protection rules",
+  "description": "Workflows that use the GitHub App and get, update and delete rules from the protected branch",
   "main": "index.js",
   "private": true,
   "scripts": {
-    "dev": "node src/index"
+    "dev:get": "NAME_FUNC=getBranchProtection node src/local-tests.js",
+    "dev:enable": "NAME_FUNC=enableSecurityBranch node src/local-tests.js",
+    "dev:disable": "NAME_FUNC=disableSecurityBranch node src/local-tests.js"
   },
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corteshvictor/github-actions-toolkit.git"
+  },
   "keywords": [],
   "author": "corteshvictor",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/corteshvictor/github-actions-toolkit/issues"
+  },
+  "homepage": "https://github.com/corteshvictor/github-actions-toolkit#readme",
   "dependencies": {
     "@actions/exec": "1.1.1",
     "@actions/github": "6.0.0"
@@ -22,5 +32,8 @@
     "branches": [
       "main"
     ]
+  },
+  "devDependencies": {
+    "dotenv": "16.3.1"
   }
 }
