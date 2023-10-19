@@ -33,7 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
       - name: Semantic Release
-        uses: node src/create-version.js
+        run: node src/create-version.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
       - name: Run script enable security branch
