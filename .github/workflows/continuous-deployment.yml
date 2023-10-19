@@ -28,7 +28,6 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-          revoke: false
       - name: Run script disable security branch
         run: node src/disable-security-branch.js
         env:
@@ -36,8 +35,8 @@ jobs:
       - name: Semantic Release
         run: node src/create-version.js
         env:
-          GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run script enable security branch
         if: always()
         run: node src/enable-security-branch.js
