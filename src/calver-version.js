@@ -9,6 +9,7 @@ import {
   createTag,
   pushOrigin,
   pushTags,
+  setupUser,
 } from './utils/actions-toolkit.js';
 
 async function run() {
@@ -33,6 +34,7 @@ async function run() {
 
     const tagName = `${packageJson.name}@${packageJson.version}`;
 
+    await setupUser();
     await commitAll('chore: Version Packages');
     await createTag(tagName);
     await pushTags();
