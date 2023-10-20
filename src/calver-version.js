@@ -38,7 +38,7 @@ async function run() {
     await commitAll('chore: Version Packages');
     await createTag(tagName);
     await pushTags();
-    await pushOrigin('main');
+    await pushOrigin('test');
     await createRelease({
       owner,
       repo,
