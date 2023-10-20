@@ -7,6 +7,7 @@ const functionModules = {
   enableSecurityBranch: './get-branch-protection.js',
   disableSecurityBranch: './get-branch-protection.js',
   createVersion: './create-version.js',
+  calverVersion: './calver-version.js',
 };
 
 async function run() {

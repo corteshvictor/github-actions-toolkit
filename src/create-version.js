@@ -1,19 +1,10 @@
-import { context } from '@actions/github';
 import semanticRelease from 'semantic-release';
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import {
-  commitAll,
-  createRelease,
-  createTag,
-  pushOrigin,
-  pushTags,
-} from './utils/actions-toolkit.js';
+import { commitAll } from './utils/actions-toolkit.js';
 
 async function run() {
-  const { owner, repo } = context.repo;
-
   try {
     const packageJsonPath = path.resolve(process.cwd(), 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
@@ -22,7 +13,7 @@ async function run() {
     const { lastRelease, nextRelease } = await semanticRelease({
       branches: ['main', 'feat/run-locally'],
     });
-    const { version, gitTag, name } = nextRelease;
+    const { version } = nextRelease;
 
     if (lastRelease.version >= version) {
       throw new Error(
@@ -33,16 +24,7 @@ async function run() {
     packageJson.version = version;
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
-    await commitAll('chore: Version Packages');
-    await createTag(gitTag);
-    await pushTags();
-    await pushOrigin('main');
-    await createRelease({
-      owner,
-      repo,
-      tag_name: name,
-      generate_release_notes: true,
-    });
+    await commitAll('chore: Update version package.json');
   } catch (error) {
     console.error('Error updating version and create tag', error);
   }

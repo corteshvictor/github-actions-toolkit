@@ -8,7 +8,8 @@
     "dev:get": "NAME_FUNC=getBranchProtection node src/local-tests.js",
     "dev:enable": "NAME_FUNC=enableSecurityBranch node src/local-tests.js",
     "dev:disable": "NAME_FUNC=disableSecurityBranch node src/local-tests.js",
-    "dev:version": "NAME_FUNC=createVersion node src/local-tests.js"
+    "dev:version": "NAME_FUNC=createVersion node src/local-tests.js",
+    "dev:calverVersion": "NAME_FUNC=calverVersion node src/local-tests.js"
   },
   "type": "module",
   "repository": {
@@ -25,6 +26,7 @@
   "dependencies": {
     "@actions/exec": "1.1.1",
     "@actions/github": "6.0.0",
+    "calver": "22.9.1",
     "semantic-release": "22.0.5"
   },
   "engines": {

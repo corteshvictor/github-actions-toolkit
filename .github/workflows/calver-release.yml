@@ -1,12 +1,12 @@
-name: continuous-deployment
+name: calver-release
 on:
   push:
-    branches: [main]
+    branches: [test]
     paths-ignore:
       - '.github/**'
 
 jobs:
-  continuous-deployment:
+  calver-release:
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -32,8 +32,8 @@ jobs:
         run: node src/disable-security-branch.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
-      - name: Semantic Release
-        run: node src/create-version.js
+      - name: Calendar Release
+        run: node src/calver-version.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run script enable security branch
