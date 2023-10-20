@@ -2,7 +2,7 @@ import semanticRelease from 'semantic-release';
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { commitAll } from './utils/actions-toolkit.js';
+import { commitAll, setupUser } from './utils/actions-toolkit.js';
 
 async function run() {
   try {
@@ -24,7 +24,9 @@ async function run() {
     packageJson.version = version;
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
+    await setupUser();
     await commitAll('chore: Update version package.json');
+    await pushOrigin('main');
   } catch (error) {
     console.error('Error updating version and create tag', error);
   }
