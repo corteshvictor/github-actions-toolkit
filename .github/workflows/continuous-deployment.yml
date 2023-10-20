@@ -33,9 +33,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
       - name: Semantic Release
-        uses: codfish/semantic-release-action@v2
+        run: node src/create-version.js
         env:
-          GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run script enable security branch
         if: always()
         run: node src/enable-security-branch.js

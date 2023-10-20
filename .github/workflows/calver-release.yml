@@ -1,4 +1,4 @@
-name: VHC APP
+name: calver-release
 on:
   push:
     branches: [test]
@@ -6,7 +6,8 @@ on:
       - '.github/**'
 
 jobs:
-  delete-access-restrictions:
+  calver-release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,5 +30,14 @@ jobs:
           private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Run script disable security branch
         run: node src/disable-security-branch.js
+        env:
+          GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
+      - name: Calendar Release
+        run: node src/calver-version.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run script enable security branch
+        if: always()
+        run: node src/enable-security-branch.js
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
