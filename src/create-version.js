@@ -2,7 +2,7 @@ import semanticRelease from 'semantic-release';
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { commitAll, setupUser } from './utils/actions-toolkit.js';
+import { commitAll, pushOrigin, setupUser } from './utils/actions-toolkit.js';
 
 async function run() {
   try {
