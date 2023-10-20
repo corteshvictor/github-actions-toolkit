@@ -1,6 +1,6 @@
 {
   "name": "github-actions-toolkit",
-  "version": "0.0.1",
+  "version": "2023.10.20.0",
   "description": "Workflows that use the GitHub App and get, update and delete rules from the protected branch",
   "main": "index.js",
   "private": true,
